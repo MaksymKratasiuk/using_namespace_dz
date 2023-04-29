@@ -7,10 +7,12 @@ using using_namespace_dz;
 
 namespace using_namespace_dz
 {
-    public class Morse
+    namespace MorseTranslator
     {
+        public class Morse
+        {
 
-        static Dictionary<char, string> morseAlphabet = new Dictionary<char, string>()
+            static Dictionary<char, string> morseAlphabet = new Dictionary<char, string>()
         {
             {'a', ".-"},
             {'b', "-..."},
@@ -52,80 +54,82 @@ namespace using_namespace_dz
         };
 
 
-        static Dictionary<string, char> reverseMorseAlphabet = new Dictionary<string, char>();
+            static Dictionary<string, char> reverseMorseAlphabet = new Dictionary<string, char>();
 
-        static Morse()
-        {
-
-            foreach (var entry in morseAlphabet)
-            {
-                reverseMorseAlphabet.Add(entry.Value, entry.Key);
-            }
-        }
-
-
-        public static string ToMorse(string text)
-        {
-            string morseText = "";
-
-
-            foreach (char c in text)
+            static Morse()
             {
 
-                if (morseAlphabet.ContainsKey(c))
+                foreach (var entry in morseAlphabet)
                 {
-
-                    morseText += morseAlphabet[c] + " ";
+                    reverseMorseAlphabet.Add(entry.Value, entry.Key);
                 }
             }
 
-            return morseText.TrimEnd();
-        }
 
-
-        public static string FromMorse(string morseText)
-        {
-            string text = "";
-
-
-            string[] codes = morseText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-
-            foreach (string code in codes)
+            public static string ToMorse(string text)
             {
+                string morseText = "";
 
-                if (reverseMorseAlphabet.ContainsKey(code))
+
+                foreach (char c in text)
                 {
 
-                    text += reverseMorseAlphabet[code];
+                    if (morseAlphabet.ContainsKey(c))
+                    {
+
+                        morseText += morseAlphabet[c] + " ";
+                    }
                 }
+
+                return morseText.TrimEnd();
             }
 
-            return text;
+
+            public static string FromMorse(string morseText)
+            {
+                string text = "";
+
+
+                string[] codes = morseText.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+
+                foreach (string code in codes)
+                {
+
+                    if (reverseMorseAlphabet.ContainsKey(code))
+                    {
+
+                        text += reverseMorseAlphabet[code];
+                    }
+                }
+
+                return text;
+            }
         }
+
+
+
+
+        public class Test3_4
+        {
+            public static void num3_4()
+            {
+                Console.WriteLine("Введіть текст для перетворення в азбуку Морзе:");
+                string text = Console.ReadLine().ToLower();
+
+
+                string morseText = Morse.ToMorse(text);
+
+                Console.WriteLine("Азбука Морзе: " + morseText);
+
+
+                string newText = Morse.FromMorse(morseText);
+
+                Console.WriteLine("Звичайний текст: " + newText);
+
+                Console.ReadKey();
+            }
+        }
+
     }
-
-
 }
-
-public class Test3_4
-{
-    public static void num3_4()
-    {
-        Console.WriteLine("Введіть текст для перетворення в азбуку Морзе:");
-        string text = Console.ReadLine().ToLower();
-
-
-        string morseText = Morse.ToMorse(text);
-
-        Console.WriteLine("Азбука Морзе: " + morseText);
-
-
-        string newText = Morse.FromMorse(morseText);
-
-        Console.WriteLine("Звичайний текст: " + newText);
-
-        Console.ReadKey();
-    }
-}
-
